@@ -9,16 +9,14 @@ RUN apt-get update && apt-get install -y \
   rsync \
   git \
   curl \
-  rlwrap
+  rlwrap \
+  ca-certificates-java \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #install java 16
 RUN curl https://download.java.net/java/GA/jdk16.0.1/7147401fd7354114ac51ef3e1328291f/9/GPL/openjdk-16.0.1_linux-x64_bin.tar.gz > openjdk-16.tar.gz \
-  && tar -xf openjdk-16.tar.gz -C /opt/ \\
-  && ln -s /opt/jdk-16.0.1/bin/java /user/bin/java
-
-#install ca certs and clean up apt
-RUN apt-get install -y ca-certificates-java \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  && tar -xf openjdk-16.tar.gz -C /opt/ \
+  && ln -fs /opt/jdk-16.0.1/bin/java /usr/bin/java
 
 #install node from nodesource
 RUN curl https://deb.nodesource.com/node_8.x/pool/main/n/nodejs/nodejs_8.9.4-1nodesource1_amd64.deb > node.deb \
